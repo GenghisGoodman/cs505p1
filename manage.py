@@ -1,4 +1,4 @@
-from genghis import create, grant, login
+from genghis import create, grant, login, register
 from jonathan import display
 
 
@@ -12,7 +12,7 @@ def main():
 		if ui[0] == 'login':
 			user = login(ui)
 
-		if u[0] == 'register':
+		if ui[0] == 'register':
 			register(ui)
 					
 		if ui[0] == 'display':

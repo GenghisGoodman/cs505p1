@@ -1,0 +1,9 @@
+genghis,jonathan,clients,read,1
+jonathan,genghis,clients,1,read
+jonathan,jo,clients,0,read
+genghis,jonathan,clients,0,read
+genghis,marek,clients,1,read
+genghis,marek,clients,1,write
+genghis,jonathan,clients,1,read
+genghis,marek,clients,1,write
+genghis,marek,clients,1,write
