@@ -68,6 +68,14 @@ def register(ui):
 		print('>>> USAGE: register <username> <password>  <<<')
 		return ''
 
+	with open('login.csv', 'r') as f:
+		loginTable = [l.rstrip().split(',') for l in f.readlines()]
+
+	for u,p in loginTable:
+		if u == ui[1]:
+			print('ERROR: User already exists')
+			return
+
 	with open('login.csv', 'a') as f:
 		f.write(','.join(ui[1:])+'\n')
 
