@@ -1,5 +1,6 @@
+from genghis import authenticate
+
 def display(user, ui):
-	#TODO: authentication
 	if len(ui) < 2:
 		print('>>> USAGE: display <tablename> <<<')
 		return
@@ -11,6 +12,10 @@ def display(user, ui):
 	except FileNotFoundError:
 		print(">>> ERROR: Table does not exist <<<")
 		return
+	
+	if not authenticate(user, tablename, 'r'):
+		print('>>> ERROR: User', user, 'does not have read access to ', tablename)
+		return	
 	
 	#Get sizes of each input for display
 	maxlen = [max([len(i[j]) for i in table])+2 for j in range(len(table[0]))]
@@ -28,7 +33,6 @@ def display(user, ui):
 		print()
 		
 def write(user, ui):
-	#TODO: Authentication
 	if len(ui) < 3:
 		print(">>> USAGE: write <tablename> <entry>")
 		return
@@ -41,7 +45,11 @@ def write(user, ui):
 	except FileNotFoundError:
 		print(">>> ERROR: Table does not exist")
 		return
-		
+	
+	if not authenticate(user, tablename, 'w'):
+			print('>>> ERROR: User', user, 'does not have write access to ', tablename)
+			return		
+	
 	if len(ui) > 2+len(legend):
 		print(">>> ERROR: Too many arguments")
 		return		
@@ -57,7 +65,6 @@ def write(user, ui):
 		print(") to table", tablename)
 		
 def delete(user, ui):
-	#TODO: Authentication
 	if len(ui) < 3:
 		print(">>> USAGE: delete <tablename> <entryno>")
 		return
@@ -65,22 +72,32 @@ def delete(user, ui):
 	try:
 		with open(ui[1]+'.csv', 'r') as f:
 			table = [l.rstrip().split(',') for l in f.readlines()]
-		if len(table) <= int(ui[2]) or int(ui[2]) <= 0:
-			print(">>> ERROR: Invalid entry number")
-		x = table.pop(int(ui[2]))
-		with open(ui[1]+'.csv', 'w') as f:
-			for i in table[:-1]:
-				f.write(",".join(i) + "\n")
-			f.write(",".join(table[len(table)-1]))
-		print(">>> Deleted (  ", end='')
-		for i in x:
-			print(i + "  ", end='')
-		print(") from table", ui[1])		
-		
 	except FileNotFoundError:
 		print (">>> ERROR: Table does not exist")
-		return
+		return	
+	
+	if not authenticate(user, tablename, 'r'):
+			print('>>> ERROR: User', user, 'does not have write access to', tablename)
+			return
+		
+	try:
+		if len(table) <= int(ui[2]) or int(ui[2]) <= 0:
+			print(">>> ERROR: Invalid entry number")
+			return
+		x = table.pop(int(ui[2]))
 	except ValueError:
 		print (">>> ERROR: Second argument should be a number")
-		return
+		return	
 	
+	with open(ui[1]+'.csv', 'w') as f:
+		for i in table[:-1]:
+			f.write(",".join(i) + "\n")
+		f.write(",".join(table[len(table)-1]))
+	print(">>> Deleted (  ", end='')
+	for i in x:
+		print(i + "  ", end='')
+	print(") from table", ui[1])		
+	
+
+def Help():
+	return
