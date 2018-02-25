@@ -1,5 +1,29 @@
 from collections import defaultdict
 
+def forbid(user, ui):
+	if user != 'admin':
+		print("ERROR: Only admin has access to forbid function")
+		return
+	if len(ui) != 3:
+		print("USAGE: forbid <user> <table>")
+		return
+	try:
+		with open('forbidden.csv', 'r') as f:
+			d = f.readlines()
+
+		for u,t in d:
+			t = t.rstrip()
+			if u == ui[1] and t == ui[2]:
+				print('ERROR: '+u+' is already forbidden from '+t)
+				return
+	except FileNotFoundError:
+		pass
+
+	with open('forbidden.csv', 'a') as f:
+		f.write(','.join(ui[1:]))
+
+
+
 def create(user, ui):
 	if len(ui) != 2:
 		print('USAGE: CREATE <tablename>')
@@ -13,7 +37,7 @@ def create(user, ui):
 			f.write(user + ',' + ui[1] + ',' +'1' + '\n')
 
 def grant(user, ui):
-	if len(ui) < 5:
+	if len(ui) != 5:
 		print('USAGE: GRANT <username> <table> <grantOption> <action>')
 		return 
 	if user == '':
@@ -45,7 +69,7 @@ def grant(user, ui):
 
 
 def login(ui):
-	if len(ui) < 3:
+	if len(ui) != 3:
 		print('>>> USAGE: login <username> <password>  <<<')
 		return ''
 
@@ -64,7 +88,7 @@ def login(ui):
 	return ''
 
 def register(ui):
-	if len(ui) < 3:
+	if len(ui) != 3:
 		print('>>> USAGE: register <username> <password>  <<<')
 		return ''
 
@@ -81,12 +105,21 @@ def register(ui):
 
 def authenticate(user, fileName, permission):
 
+
+	forbidden = defaultdict(lambda: defaultdict(int))
+
+	with open('forbidden.csv', 'r') as nf:
+		l = nf.readline().rstrip().split(',')
+		while l != ['']:
+			forbidden[l[0]][l[1]] = 1
+			l = nf.readline().rstrip().split(',')
+
 	usergraph = defaultdict(list)
 	with open('grantLog.csv', 'r') as f:
 		line = f.readline()
 		while line != '':
 			u1, u2, fn, b, p = line.rstrip().split(',')
-			if fn == fileName and (p == permission or p == '+'):
+			if fn == fileName and (p == permission or p == '+') and not forbidden[u2][fn]:
 				usergraph[u1].append([u2, b])
 			line = f.readline()
 

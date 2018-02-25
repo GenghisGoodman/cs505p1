@@ -1,4 +1,4 @@
-from genghis import create, grant, login, register
+from genghis import create, grant, login, register, forbid
 from jonathan import display, write, delete
 
 
@@ -9,13 +9,13 @@ def main():
 	
 	while ui[0] != 'quit' and ui[0] != 'q':
 		
-		if ui[0] == 'login':
+		if ui[0].lower() == 'login':
 			user = login(ui)
 
-		if ui[0] == 'register':
+		if ui[0].lower() == 'register':
 			register(ui)
 					
-		if ui[0] == 'display':
+		if ui[0].lower() == 'display':
 			display(user, ui)
 
 		if ui[0].lower() == 'create':
@@ -32,6 +32,9 @@ def main():
 			
 		if ui[0].lower() == 'delete':
 			delete(user, ui)
+
+		if ui[0].lower() == 'forbid':
+			forbid(user, ui)
 
 
 		ui = input(user + '>').split(' ')
