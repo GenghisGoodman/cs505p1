@@ -1,5 +1,5 @@
 from genghis import create, grant, login, register
-from jonathan import display
+from jonathan import display, write
 
 
 def main():
@@ -28,7 +28,7 @@ def main():
 			Help()
 
 		if ui[0].lower() == 'write':
-			write()
+			write(user, ui)
 
 
 		ui = input(user + '>').split(' ')
