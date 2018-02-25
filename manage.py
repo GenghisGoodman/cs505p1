@@ -1,5 +1,5 @@
 from genghis import create, grant, login, register
-from jonathan import display, write
+from jonathan import display, write, delete
 
 
 def main():
@@ -29,6 +29,9 @@ def main():
 
 		if ui[0].lower() == 'write':
 			write(user, ui)
+			
+		if ui[0].lower() == 'delete':
+			delete(user, ui)
 
 
 		ui = input(user + '>').split(' ')
