@@ -99,5 +99,73 @@ def delete(user, ui):
 	print(") from table", ui[1])		
 	
 
-def Help():
-	return
+def Help(user, ui):
+	if len(ui) == 1:
+		print ("cs505p1 by Genghis Goodman and Jonathan Dingess.",
+		       "This is a database system implementing a mixture of DAC and MAC.",
+		       "To be specific, GRANT options of DAC are implemented together with a chief security officer (SO) to oversee.",
+		       "",
+		       "Usable commands:",
+		       "\tlogin <user> <password>\t\t\t\t\tLogs in to the user account.",
+		       "\tregister <user> <password>\t\t\t\tRegisters a new account.",
+		       "\tcreate <tablename>\t\t\t\t\tCreate a table with the given name.",
+		       "\tdisplay <tablename>\t\t\t\t\tDisplay the contents of the given table.", 
+		       "\twrite <tablename> <entry>\t\t\t\tWrite the given entry to the given table.",
+		       "\tdelete <tablename> <entryno>\t\t\t\tDelete the numbered entry from the given table.", 
+		       "\tgrant <user> <tablename> <grantOption> <action>\t\tGrant the user permission to do action on table.",
+		       "\thelp <command>\t\t\t\t\t\tShow this dialog, or show specific information about a certain command.", sep='\n')
+		if (user == 'admin'):
+			print("",
+			      "Admin-only commands:",
+			      "\tforbid <user> <tablename>\t\t\t\tAdmin only: Forbid a user from performing an action on a table.", sep="\n")
+	else:
+		if ui[1] == "login":
+			print("login <user> <password>",
+			      "",
+			      "Log in to the user account with the username and password.",
+			      "If password is not correct nothing will happen.",
+			      "If you have forgotten your username or password, contact your security officer (SO)", sep='\n')
+		if ui[1] == "register":
+			print("register <user> <password>",
+			      "",
+			      "Register a new account with the username and password.",
+			      "This does not change current user; you must still log in to the new account.",
+			      "New accounts do not inherit permissions; you must grant permissions to them.", sep="\n")
+		if ui[1] == "create":
+			print("create <tablename>",
+			      "",
+			      "Create a new table with the given tablename.",
+			      "The currently logged in user has all access rights to the table they create."
+			      "No other user (Besides admin) has access, so the owner must grant others permission.", sep="\n")
+		if ui[1] == "display":
+			print("display <tablename>",
+			      "",
+			      "Display the contents of a table.",
+			      "The logged-in user must have read access to the table to use this command.", sep="\n")
+		if ui[1] == "write":
+			print("write <table> <entry>",
+			      "",
+			      "Write an entry to the end of table.",
+			      "The entry field can consist of one or more arguments. Any spaces left blank in the table will be left NULL."
+			      "The logged-in user must have write access to the table to use this command.", sep="\n")
+		if ui[1] == "delete":
+			print("delete <tablename> <entryno>",
+			      "",
+			      "Delete an entry from a table.",
+			      "entryno should be the number of the entry you wish to delete, corresponding to the leftmost number in the display command.",
+			      "The logged-in user must have write access to the table to use this command.", sep="\n")
+		if ui[1] == "grant":
+			print("grant <user> <tablename> <grantOption> <action>",
+			      "",
+			      "Grant user permission to perform action on a table, and optionally grant them the ability to grant to others as well.",
+			      "grantOption should be 1 or 0, if you want the user to be able to grant to others or not.",
+			      "action should be 'r', 'w', or '+', to give the user access to read, write, or both read and write.", sep="\n")
+		if ui[1] == "help":
+			print("You need help using the help function?")
+		if ui[1] == "forbid" and user == "admin":
+			print("forbid <user> <tablename>",
+			      "",
+			      "Admin-only command.", 
+			      "Forbid a user from performing any action on the given table.",
+			      "The user will not be able to access the table at all, even if others grant him access, until they are removed from the forbidden list.", sep="\n")
+		

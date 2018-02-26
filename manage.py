@@ -1,5 +1,5 @@
 from genghis import create, grant, login, register, forbid
-from jonathan import display, write, delete
+from jonathan import display, write, delete, Help
 
 
 def main():
@@ -25,7 +25,7 @@ def main():
 			grant(user, ui)
 
 		if ui[0].lower() == 'help':
-			Help()
+			Help(user, ui)
 
 		if ui[0].lower() == 'write':
 			write(user, ui)
