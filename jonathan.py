@@ -76,7 +76,7 @@ def delete(user, ui):
 		print (">>> ERROR: Table does not exist")
 		return	
 	
-	if not authenticate(user, tablename, 'r'):
+	if not authenticate(user, ui[1], 'r'):
 			print('>>> ERROR: User', user, 'does not have write access to', tablename)
 			return
 		

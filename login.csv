@@ -1,6 +1,5 @@
-admin,cs505p1,genghis attempted to grant brad access to clients
-genghis,1234,2018-02-26 10:59 -- You have been assigned access to clients by admin
-jonathan,2345,Welcome jonathan!
-michael,5678,Welcome michael!
-brad,bradp,2018-02-26 11:03 -- You have been assigned access to clients by admin
-lucy,1234,Welcome lucy!
+admin,cs505p1,2018-02-26 12:50 -- admin attempted to grant brad access to clients
+genghis,genghisp,2018-02-26 12:44 -- brad has been forbidden access to clients by admin
+brad,bradp,2018-02-26 12:44 -- You have been forbidden access to clients by admin
+chad,chadp,2018-02-26 12:42 -- You have been granted access to clients by brad
+lucy,lucyp,Welcome lucy!

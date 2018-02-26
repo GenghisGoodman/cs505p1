@@ -1,4 +1,4 @@
-from genghis import create, grant, login, register, forbid, assign
+from genghis import create, grant, login, register, forbid
 from jonathan import display, write, delete, Help
 
 
@@ -35,9 +35,6 @@ def main():
 
 		if ui[0].lower() == 'forbid':
 			forbid(user, ui)
-
-		if ui[0].lower() == 'assign':
-			assign(user, ui)
 
 
 		ui = input(user + '>').split(' ')
