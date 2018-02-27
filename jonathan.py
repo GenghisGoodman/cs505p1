@@ -47,7 +47,7 @@ def write(user, ui):
 		return
 	
 	if not authenticate(user, tablename, 'w'):
-			print('>>> ERROR: User', user, 'does not have write access to ', tablename)
+			print('>>> ERROR: User', user, 'does not have write access to', tablename)
 			return		
 	
 	if len(ui) > 2+len(legend):
@@ -108,7 +108,7 @@ def Help(user, ui):
 		       "Usable commands:",
 		       "\tlogin <user> <password>\t\t\t\t\tLogs in to the user account.",
 		       "\tregister <user> <password>\t\t\t\tRegisters a new account.",
-		       "\tcreate <tablename>\t\t\t\t\tCreate a table with the given name.",
+		       "\tcreate <tablename> <headers>\t\t\t\tCreate a table with the given name with the given headers.",
 		       "\tdisplay <tablename>\t\t\t\t\tDisplay the contents of the given table.", 
 		       "\twrite <tablename> <entry>\t\t\t\tWrite the given entry to the given table.",
 		       "\tdelete <tablename> <entryno>\t\t\t\tDelete the numbered entry from the given table.", 
@@ -132,10 +132,11 @@ def Help(user, ui):
 			      "This does not change current user; you must still log in to the new account.",
 			      "New accounts do not inherit permissions; you must grant permissions to them.", sep="\n")
 		if ui[1] == "create":
-			print("create <tablename>",
+			print("create <tablename> <headers>",
 			      "",
 			      "Create a new table with the given tablename.",
-			      "The currently logged in user has all access rights to the table they create."
+			      "The currently logged in user has all access rights to the table they create.",
+			      "The headers field should be one or more space seperated categories, such as NAME AGE GENDER.",
 			      "No other user (Besides admin) has access, so the owner must grant others permission.", sep="\n")
 		if ui[1] == "display":
 			print("display <tablename>",

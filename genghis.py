@@ -69,13 +69,23 @@ def forbid(user, ui):
 	return 1
 
 def create(user, ui):
-	if len(ui) != 2:
-		print('USAGE: CREATE <tablename>')
+	if len(ui) <= 3:
+		print('USAGE: CREATE <tablename> <headers>')
 		return 0
 	if user == '':
 		print('ERROR: Must be logged in to perform this action')
 		return 0
-
+	
+	try:
+		with open(ui[1]+'.csv', 'r') as f:
+			print('ERROR: Table', ui[1], 'already exists.')
+			return
+	except FileNotFoundError:
+		pass
+	
+	with open(ui[1] + '.csv','w') as f:
+		f.write(','.join(ui[2:]) + '\n')
+	
 	with open('assigned.csv','a') as f:
 		f.write(','.join(['admin',user,ui[1],'1']) +'\n')
 
