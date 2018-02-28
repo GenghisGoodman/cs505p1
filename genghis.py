@@ -2,6 +2,33 @@ from collections import defaultdict
 import datetime
 
 
+def allow(user, ui):
+	if user != 'admin':
+		print("ERROR: Only admin has access to allow function")
+		return 0
+	if len(ui) < 3:
+		print("USAGE: allow <user> <table>")
+		return 0
+
+	with open('forbidden.csv', 'r') as f:
+		d =[l.rstrip().split(',') for l in f.readlines()]
+
+	lines = []
+	found = False
+	for u,t in d:
+		t = t.rstrip()
+		if not (u == ui[1] and t == ui[2]):
+			lines.append(u +','+t+'\n')
+			found = True
+
+	if not found:
+		print('ERROR: '+u+' is not forbidden from '+t)
+	else:
+		with open('forbidden.csv','w') as f:
+			for l in lines:
+				f.write(l)
+	return found
+
 def forbid(user, ui):
 	if user != 'admin':
 		print("ERROR: Only admin has access to forbid function")
@@ -91,6 +118,38 @@ def create(user, ui):
 
 	return 1
 
+def revoke(user, ui):
+	if len(ui) != 3:
+		print('USAGE: GRANT <username> <table>')
+		return 0
+	if user == '':
+		print('Must be logged in to perform this action!')
+		return 0
+
+	lines = []
+	revoked = False
+	with open('assigned.csv', 'r') as f:
+		line = f.readline()
+		while line != '':
+			u1, u2, fn, b = line.rstrip().split(',')
+			if not (u1 == user and u2 == ui[1] and fn == ui[2]):
+				lines.append(line)
+				revoked = True
+			line = f.readline()
+
+
+	if not revoked:
+		print('ERROR: User has not been granted')
+	else:
+		leaveMessage(ui[1], "{u} has revoked your access to {t}".format(u = user, t = ui[2]))
+		with open('assigned.csv', 'w') as f:
+			for l in lines:
+				f.write(l)
+		print("{u}'s access to {t} has been revoked".format(u = ui[1], t = ui[2]))
+
+	return revoked
+
+
 def grant(user, ui):
 	if len(ui) != 4:
 		print('USAGE: GRANT <username> <table> <grantOption>')
@@ -128,10 +187,10 @@ def grant(user, ui):
 		
 	return 1
 
-def login(ui):
+def login(user, ui):
 	if len(ui) != 3:
 		print('>>> USAGE: login <username> <password>  <<<')
-		return ''
+		return user
 
 	with open('login.csv', 'r') as f:
 		loginTable = [l.rstrip().split(',') for l in f.readlines()]
@@ -143,12 +202,12 @@ def login(ui):
 				return ui[1]
 			else:
 				print('invalid password')
-				return ''
+				return user
 
 	print('invalid username')
-	return ''
+	return user
 
-def register(ui):
+def register(user, ui):
 	if len(ui) != 3:
 		print('>>> USAGE: register <username> <password>  <<<')
 		return 0

@@ -1,4 +1,5 @@
+granter,grantee,table,bit
 admin,genghis,clients,1
 brad,chad,clients,0
 admin,brad,clients,1
-admin,lucy,clients,1
+admin,brad,clients,1

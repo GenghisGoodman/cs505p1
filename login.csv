@@ -1,5 +1,6 @@
-admin,cs505p1,2018-02-26 12:50 -- admin attempted to grant brad access to clients
+user,password,inbox
+admin,cs505p1,2018-02-28 12:44 -- admin attempted to grant brad access to clients
 genghis,genghisp,2018-02-26 12:44 -- brad has been forbidden access to clients by admin
-brad,bradp,2018-02-26 12:44 -- You have been forbidden access to clients by admin
+brad,bradp,2018-02-28 12:45 -- You have been granted access to clients by admin
 chad,chadp,2018-02-26 12:42 -- You have been granted access to clients by brad
-lucy,lucyp,Welcome lucy!
+lucy,lucyp,admin has revoked your access to clients

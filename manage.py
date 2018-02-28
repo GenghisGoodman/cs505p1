@@ -1,8 +1,29 @@
-from genghis import create, grant, login, register, forbid
+from genghis import create, grant, login, register, forbid, revoke, allow
 from jonathan import display, write, delete, Help, remove
+from collections import defaultdict
 
+def unknownCommand(user, ui):
+	print('>>> Unknown command <<<')
+
+def blank(user, ui):
+	pass
 
 def main():
+
+	methods = defaultdict(lambda: unknownCommand, [
+		('register', register),
+		('display', display),
+		('create', create),
+		('grant', grant),
+		('help', Help),
+		('write', write),
+		('remove', remove),
+		('forbid', forbid),
+		('delete', delete),
+		('revoke', revoke),
+		('allow', allow),
+		('',blank)
+		])
 
 	user = ''
 	ui = input(user + '>').split(' ')
@@ -10,38 +31,11 @@ def main():
 	while ui[0] != 'quit' and ui[0] != 'q':
 		
 		if ui[0].lower() == 'login':
-			user = login(ui)
-
-		if ui[0].lower() == 'register':
-			register(ui)
-					
-		if ui[0].lower() == 'display':
-			display(user, ui)
-
-		if ui[0].lower() == 'create':
-			create(user, ui)
-
-		if ui[0].lower() == 'grant':
-			grant(user, ui)
-
-		if ui[0].lower() == 'help':
-			Help(user, ui)
-
-		if ui[0].lower() == 'write':
-			write(user, ui)
-			
-		if ui[0].lower() == 'remove':
-			remove(user, ui)
-
-		if ui[0].lower() == 'forbid':
-			forbid(user, ui)
-			
-		if ui[0].lower() == 'delete':
-			delete(user, ui)
-
+			user = login(user, ui)
+		else:
+			methods[ui[0].lower()](user, ui)
 
 		ui = input(user + '>').split(' ')
-
 
 		
 main()
