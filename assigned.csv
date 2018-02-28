@@ -3,3 +3,5 @@ admin,genghis,clients,1
 brad,chad,clients,0
 admin,brad,clients,1
 admin,brad,clients,1
+admin,admin,newtable,1
+admin,genghis,newtable,1

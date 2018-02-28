@@ -1,7 +1,26 @@
 from collections import defaultdict
 import datetime
 
+def login(user, ui):
+	if len(ui) != 3:
+		print('>>> USAGE: login <username> <password>  <<<')
+		return user
 
+	with open('login.csv', 'r') as f:
+		loginTable = [l.rstrip().split(',') for l in f.readlines()]
+
+	for u,p,m in loginTable:
+		if ui[1] == u:
+			if ui[2] == p:
+				print('INBOX:',m)
+				return ui[1]
+			else:
+				print('invalid password')
+				return user
+
+	print('invalid username')
+	return user
+	
 def allow(user, ui):
 	if user != 'admin':
 		print("ERROR: Only admin has access to allow function")
@@ -95,29 +114,6 @@ def forbid(user, ui):
 
 	return 1
 
-def create(user, ui):
-	if len(ui) <= 3:
-		print('USAGE: CREATE <tablename> <headers>')
-		return 0
-	if user == '':
-		print('ERROR: Must be logged in to perform this action')
-		return 0
-	
-	try:
-		with open(ui[1]+'.csv', 'r') as f:
-			print('ERROR: Table', ui[1], 'already exists.')
-			return
-	except FileNotFoundError:
-		pass
-	
-	with open(ui[1] + '.csv','w') as f:
-		f.write(','.join(ui[2:]))
-	
-	with open('assigned.csv','a') as f:
-		f.write(','.join(['admin',user,ui[1],'1']) +'\n')
-
-	return 1
-
 def revoke(user, ui):
 	if len(ui) != 3:
 		print('USAGE: GRANT <username> <table>')
@@ -148,7 +144,6 @@ def revoke(user, ui):
 		print("{u}'s access to {t} has been revoked".format(u = ui[1], t = ui[2]))
 
 	return revoked
-
 
 def grant(user, ui):
 	if len(ui) != 4:
@@ -186,26 +181,6 @@ def grant(user, ui):
 	leaveMessage(ui[1], message)
 		
 	return 1
-
-def login(user, ui):
-	if len(ui) != 3:
-		print('>>> USAGE: login <username> <password>  <<<')
-		return user
-
-	with open('login.csv', 'r') as f:
-		loginTable = [l.rstrip().split(',') for l in f.readlines()]
-
-	for u,p,m in loginTable:
-		if ui[1] == u:
-			if ui[2] == p:
-				print('INBOX:',m)
-				return ui[1]
-			else:
-				print('invalid password')
-				return user
-
-	print('invalid username')
-	return user
 
 def register(user, ui):
 	if len(ui) != 3:

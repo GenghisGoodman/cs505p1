@@ -1,5 +1,5 @@
-from genghis import create, grant, login, register, forbid, revoke, allow
-from jonathan import display, write, delete, Help, remove
+from security_methods import login, grant, register, forbid, revoke, allow
+from table_methods import create, display, write, delete, Help, remove
 from collections import defaultdict
 
 def unknownCommand(user, ui):

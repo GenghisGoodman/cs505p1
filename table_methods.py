@@ -1,4 +1,4 @@
-from genghis import authenticate
+from security_methods import authenticate
 from os import remove as osRemove #I already had a function named remove
 
 def display(user, ui):
@@ -119,6 +119,29 @@ def delete(user, ui):
 	osRemove(ui[1]+'.csv')
 	print("Table", ui[1], "deleted.")
 
+def create(user, ui):
+	if len(ui) <= 3:
+		print('USAGE: CREATE <tablename> <headers>')
+		return 0
+	if user == '':
+		print('ERROR: Must be logged in to perform this action')
+		return 0
+	
+	try:
+		with open(ui[1]+'.csv', 'r') as f:
+			print('ERROR: Table', ui[1], 'already exists.')
+			return
+	except FileNotFoundError:
+		pass
+	
+	with open(ui[1] + '.csv','w') as f:
+		f.write(','.join(ui[2:]))
+	
+	with open('assigned.csv','a') as f:
+		f.write(','.join(['admin',user,ui[1],'1']) +'\n')
+
+	return 1
+
 def Help(user, ui):
 	if len(ui) == 1:
 		print ("cs505p1 by Genghis Goodman and Jonathan Dingess.",
@@ -189,4 +212,9 @@ def Help(user, ui):
 			      "Admin-only command.", 
 			      "Forbid a user from performing any action on the given table.",
 			      "The user will not be able to access the table at all, even if others grant him access, until they are removed from the forbidden list.", sep="\n")
-		
+		if ui[1] == "allow" and user == "admin":
+			print("allow <user> <tablename>",
+			      "",
+			      "Admin-only command.", 
+			      "Removes the user from the forbid table", sep="\n")
+
