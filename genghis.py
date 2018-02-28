@@ -84,7 +84,7 @@ def create(user, ui):
 		pass
 	
 	with open(ui[1] + '.csv','w') as f:
-		f.write(','.join(ui[2:]) + '\n')
+		f.write(','.join(ui[2:]))
 	
 	with open('assigned.csv','a') as f:
 		f.write(','.join(['admin',user,ui[1],'1']) +'\n')
@@ -181,6 +181,9 @@ def leaveMessage(receiver, message):
 
 def authenticate(user, fileName, permission):
 
+	if user == '':
+		return False
+	
 	forbidden = defaultdict(lambda: defaultdict(int))
 
 	with open('forbidden.csv', 'r') as nf:

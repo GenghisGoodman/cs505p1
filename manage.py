@@ -1,5 +1,5 @@
 from genghis import create, grant, login, register, forbid
-from jonathan import display, write, delete, Help
+from jonathan import display, write, delete, Help, remove
 
 
 def main():
@@ -30,11 +30,14 @@ def main():
 		if ui[0].lower() == 'write':
 			write(user, ui)
 			
-		if ui[0].lower() == 'delete':
-			delete(user, ui)
+		if ui[0].lower() == 'remove':
+			remove(user, ui)
 
 		if ui[0].lower() == 'forbid':
 			forbid(user, ui)
+			
+		if ui[0].lower() == 'delete':
+			delete(user, ui)
 
 
 		ui = input(user + '>').split(' ')

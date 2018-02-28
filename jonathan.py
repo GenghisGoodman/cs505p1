@@ -1,4 +1,5 @@
 from genghis import authenticate
+from os import remove as osRemove #I already had a function named remove
 
 def display(user, ui):
 	if len(ui) < 2:
@@ -64,9 +65,9 @@ def write(user, ui):
 			print(i + "  ", end='')
 		print(") to table", tablename)
 		
-def delete(user, ui):
+def remove(user, ui):
 	if len(ui) < 3:
-		print(">>> USAGE: delete <tablename> <entryno>")
+		print(">>> USAGE: remove <tablename> <entryno>")
 		return
 	
 	try:
@@ -98,6 +99,25 @@ def delete(user, ui):
 		print(i + "  ", end='')
 	print(") from table", ui[1])		
 	
+def delete(user, ui):
+	if len(ui) != 2:
+		print(">>> USAGE: delete <tablename>")
+		return
+	
+	try:
+		with open(ui[1]+'.csv', 'r') as f:
+			if not authenticate(user, ui[1], 'w'):
+				print(">>> ERROR: User", user, "does not have access to", ui[1])
+				return
+			print("This will permanently delete table", ui[1])
+			if input('Are you sure you want to proceed? (y/n)>') != 'y':
+				return
+	except FileNotFoundError:
+		print(">>> ERROR: Table", ui[1], "does not exist.")
+		return
+	
+	osRemove(ui[1]+'.csv')
+	print("Table", ui[1], "deleted.")
 
 def Help(user, ui):
 	if len(ui) == 1:
@@ -111,7 +131,7 @@ def Help(user, ui):
 		       "\tcreate <tablename> <headers>\t\t\t\tCreate a table with the given name with the given headers.",
 		       "\tdisplay <tablename>\t\t\t\t\tDisplay the contents of the given table.", 
 		       "\twrite <tablename> <entry>\t\t\t\tWrite the given entry to the given table.",
-		       "\tdelete <tablename> <entryno>\t\t\t\tDelete the numbered entry from the given table.", 
+		       "\tremove <tablename> <entryno>\t\t\t\tRemove the numbered entry from the given table.", 
 		       "\tgrant <user> <tablename> <grantOption> <action>\t\tGrant the user permission to do action on table.",
 		       "\thelp <command>\t\t\t\t\t\tShow this dialog, or show specific information about a certain command.", sep='\n')
 		if (user == 'admin'):
@@ -149,11 +169,11 @@ def Help(user, ui):
 			      "Write an entry to the end of table.",
 			      "The entry field can consist of one or more arguments. Any spaces left blank in the table will be left NULL."
 			      "The logged-in user must have write access to the table to use this command.", sep="\n")
-		if ui[1] == "delete":
-			print("delete <tablename> <entryno>",
+		if ui[1] == "remove":
+			print("remove <tablename> <entryno>",
 			      "",
-			      "Delete an entry from a table.",
-			      "entryno should be the number of the entry you wish to delete, corresponding to the leftmost number in the display command.",
+			      "Remove an entry from a table.",
+			      "entryno should be the number of the entry you wish to remove, corresponding to the leftmost number in the display command.",
 			      "The logged-in user must have write access to the table to use this command.", sep="\n")
 		if ui[1] == "grant":
 			print("grant <user> <tablename> <grantOption> <action>",
