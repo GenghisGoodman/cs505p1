@@ -155,12 +155,14 @@ def Help(user, ui):
 		       "\tdisplay <tablename>\t\t\t\t\tDisplay the contents of the given table.", 
 		       "\twrite <tablename> <entry>\t\t\t\tWrite the given entry to the given table.",
 		       "\tremove <tablename> <entryno>\t\t\t\tRemove the numbered entry from the given table.", 
-		       "\tgrant <user> <tablename> <grantOption> <action>\t\tGrant the user permission to do action on table.",
+		       "\tgrant <user> <tablename> <grantOption>\t\t\tGrant the user permission to do action on table.",
+		       "\trevoke <user> <tablename>\t\t\t\tRevoke the user's permission to do action on table.",
 		       "\thelp <command>\t\t\t\t\t\tShow this dialog, or show specific information about a certain command.", sep='\n')
 		if (user == 'admin'):
 			print("",
 			      "Admin-only commands:",
-			      "\tforbid <user> <tablename>\t\t\t\tAdmin only: Forbid a user from performing an action on a table.", sep="\n")
+			      "\tforbid <user> <tablename>\t\t\t\tAdmin only: Forbid a user from performing an action on a table.",
+			      "\tallow <user> <tablename>\t\t\t\tAdmin only: Reverse the effects of forbid", sep="\n")
 	else:
 		if ui[1] == "login":
 			print("login <user> <password>",
@@ -204,6 +206,11 @@ def Help(user, ui):
 			      "Grant user permission to perform action on a table, and optionally grant them the ability to grant to others as well.",
 			      "grantOption should be 1 or 0, if you want the user to be able to grant to others or not.",
 			      "action should be 'r', 'w', or '+', to give the user access to read, write, or both read and write.", sep="\n")
+		if ui[1] == "revoke":
+			print("revoke <user> <tablename>",
+			      "",
+			      "Revoke user's permission to perform actions on a table. Opposite of Grant.",
+			      "You cannot revoke access given by someone else, only access given by the current user.", sep='\n')
 		if ui[1] == "help":
 			print("You need help using the help function?")
 		if ui[1] == "forbid" and user == "admin":

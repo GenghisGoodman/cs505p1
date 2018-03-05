@@ -116,7 +116,7 @@ def forbid(user, ui):
 
 def revoke(user, ui):
 	if len(ui) != 3:
-		print('USAGE: GRANT <username> <table>')
+		print('USAGE: REVOKE <username> <table>')
 		return 0
 	if user == '':
 		print('Must be logged in to perform this action!')
